@@ -7,7 +7,7 @@
     docker build -t ${project} --build-arg user=$USER .
 
     xhost +local:user
-    docker run -d --name fx-${project} \
+    docker run -it --name fx-${project} \
       -e DISPLAY=$DISPLAY \
       -e XMODIFIERS=$XMODIFIERS \
       -e XIMPROGRAM=$XIMPROGRAM \
@@ -15,6 +15,7 @@
       -e QT_IM_MODULE=$QT_IM_MODULE \
       -e LC_TYPE=ja_JP.UTF-8 \
       -e TERM=xterm \
+      -e SOURCE=$SOURCE \
       -v /tmp/.X11-unix:/tmp/.X11-unix \
       -v /home/$USER \
       -v $HOME/electron:/home/$USER/source \
