@@ -4,6 +4,11 @@
 ##
   if [[ $1 = "build" ]] ; then
     docker rm -f fx-${project}
+    export SOURCE=$2
+    if [[ $SOURCE = "$null" ]]; then
+      export SOURCE=bitbucket
+    fi
+    make
     docker build -t ${project} --build-arg user=$USER .
 
     xhost +local:user
@@ -18,11 +23,15 @@
       -e SOURCE=$SOURCE \
       -v /tmp/.X11-unix:/tmp/.X11-unix \
       -v /home/$USER \
-      -v $HOME/electron:/home/$USER/source \
+      -v $HOME:/home/$USER/source \
       ${project}
   elif [[ $1 = "stop" ]]; then
     docker stop fx-${project}
   else
+    export SOURCE=$1
+    if [[ $SOURCE = "$null" ]]; then
+      export SOURCE=bitbucket
+    fi
     docker start fx-${project}
   fi
 #
